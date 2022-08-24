@@ -5,10 +5,7 @@
  */
 
 import 'package:flutter/material.dart' hide RefreshIndicator, RefreshIndicatorState;
-import 'package:flutter/widgets.dart';
 import '../../pull_to_refresh_flutter3.dart';
-import '../internals/indicator_wrap.dart';
-import '../smart_refresher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 

@@ -6,12 +6,9 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart' hide RefreshIndicatorState, RefreshIndicator;
-import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import '../internals/indicator_wrap.dart';
 import 'package:flutter/cupertino.dart';
-import '../smart_refresher.dart';
 
 /// QQ ios refresh  header effect
 class WaterDropHeader extends RefreshIndicator {
