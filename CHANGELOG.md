@@ -1,3 +1,6 @@
+## 2.0.2
+* support flutter3
+* 
 ## 2.0.1
 * support flutter3
 

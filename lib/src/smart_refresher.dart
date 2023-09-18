@@ -5,7 +5,6 @@
 */
 
 import 'package:flutter/gestures.dart';
-import 'package:flutter/physics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -209,9 +208,9 @@ class SmartRefresher extends StatefulWidget {
       this.child,
       this.header,
       this.footer,
-      this.enablePullDown: true,
-      this.enablePullUp: false,
-      this.enableTwoLevel: false,
+      this.enablePullDown = true,
+      this.enablePullUp = false,
+      this.enableTwoLevel = false,
       this.onRefresh,
       this.onLoading,
       this.onTwoLevel,
@@ -237,9 +236,9 @@ class SmartRefresher extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.builder,
-    this.enablePullDown: true,
-    this.enablePullUp: false,
-    this.enableTwoLevel: false,
+    this.enablePullDown = true,
+    this.enablePullUp = false,
+    this.enableTwoLevel = false,
     this.onRefresh,
     this.onLoading,
     this.onTwoLevel,
@@ -390,7 +389,7 @@ class SmartRefresherState extends State<SmartRefresher> {
         dragStartBehavior: dragStartBehavior ?? DragStartBehavior.start,
         reverse: reverse ?? false,
       );
-    } else if (childView is Scrollable) {
+    } else {
       body = Scrollable(
         physics: _getScrollPhysics(conf, childView.physics ?? AlwaysScrollableScrollPhysics()),
         controller: childView.controller,
@@ -540,7 +539,7 @@ class RefreshController {
   /// initialRefreshStatus: headerMode default value
   ///
   /// initialLoadStatus: footerMode default value
-  RefreshController({this.initialRefresh: false, RefreshStatus? initialRefreshStatus, LoadStatus? initialLoadStatus}) {
+  RefreshController({this.initialRefresh = false, RefreshStatus? initialRefreshStatus, LoadStatus? initialLoadStatus}) {
     this.headerMode = RefreshNotifier(initialRefreshStatus ?? RefreshStatus.idle);
     this.footerMode = RefreshNotifier(initialLoadStatus ?? LoadStatus.idle);
   }
@@ -590,7 +589,7 @@ class RefreshController {
   }
 
   /// make the header enter refreshing state,and callback onRefresh
-  Future<void>? requestRefresh({bool needMove: true, bool needCallback: true, Duration duration: const Duration(milliseconds: 500), Curve curve: Curves.linear}) {
+  Future<void>? requestRefresh({bool needMove = true, bool needCallback = true, Duration duration = const Duration(milliseconds: 500), Curve curve = Curves.linear}) {
     assert(position != null, 'Try not to call requestRefresh() before build,please call after the ui was rendered');
     if (isRefresh) return Future.value();
     StatefulElement? indicatorElement = _findIndicator(position!.context.storageContext, RefreshIndicator);
@@ -619,10 +618,11 @@ class RefreshController {
         headerMode!.value = RefreshStatus.refreshing;
       });
     }
+    return null;
   }
 
   /// make the header enter refreshing state,and callback onRefresh
-  Future<void> requestTwoLevel({Duration duration: const Duration(milliseconds: 300), Curve curve: Curves.linear}) {
+  Future<void> requestTwoLevel({Duration duration = const Duration(milliseconds: 300), Curve curve = Curves.linear}) {
     assert(position != null, 'Try not to call requestRefresh() before build,please call after the ui was rendered');
     headerMode!.value = RefreshStatus.twoLevelOpening;
     return Future.delayed(const Duration(milliseconds: 50)).then((_) async {
@@ -631,7 +631,7 @@ class RefreshController {
   }
 
   /// make the footer enter loading state,and callback onLoading
-  Future<void>? requestLoading({bool needMove: true, bool needCallback: true, Duration duration: const Duration(milliseconds: 300), Curve curve: Curves.linear}) {
+  Future<void>? requestLoading({bool needMove = true, bool needCallback = true, Duration duration = const Duration(milliseconds: 300), Curve curve = Curves.linear}) {
     assert(position != null, 'Try not to call requestLoading() before build,please call after the ui was rendered');
     if (isLoading) return Future.value();
     StatefulElement? indicatorElement = _findIndicator(position!.context.storageContext, LoadIndicator);
@@ -663,7 +663,7 @@ class RefreshController {
   /// request complete,the header will enter complete state,
   ///
   /// resetFooterState : it will set the footer state from noData to idle
-  void refreshCompleted({bool resetFooterState: false}) {
+  void refreshCompleted({bool resetFooterState = false}) {
     headerMode?.value = RefreshStatus.completed;
     if (resetFooterState) {
       resetNoData();
@@ -671,7 +671,7 @@ class RefreshController {
   }
 
   /// end twoLeveling,will return back first floor
-  Future<void>? twoLevelComplete({Duration duration: const Duration(milliseconds: 500), Curve curve: Curves.linear}) {
+  Future<void>? twoLevelComplete({Duration duration = const Duration(milliseconds: 500), Curve curve = Curves.linear}) {
     headerMode?.value = RefreshStatus.twoLevelClosing;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       position!.animateTo(0.0, duration: duration, curve: curve).whenComplete(() {
@@ -814,29 +814,29 @@ class RefreshConfiguration extends InheritedWidget {
       required this.child,
       this.headerBuilder,
       this.footerBuilder,
-      this.dragSpeedRatio: 1.0,
+      this.dragSpeedRatio = 1.0,
       this.shouldFooterFollowWhenNotFull,
-      this.enableScrollWhenTwoLevel: true,
-      this.enableLoadingWhenNoData: false,
-      this.enableBallisticRefresh: false,
-      this.springDescription: const SpringDescription(
+      this.enableScrollWhenTwoLevel = true,
+      this.enableLoadingWhenNoData = false,
+      this.enableBallisticRefresh = false,
+      this.springDescription = const SpringDescription(
         mass: 2.2,
         stiffness: 150,
         damping: 16,
       ),
-      this.enableScrollWhenRefreshCompleted: false,
-      this.enableLoadingWhenFailed: true,
-      this.twiceTriggerDistance: 150.0,
-      this.closeTwoLevelDistance: 80.0,
-      this.skipCanRefresh: false,
+      this.enableScrollWhenRefreshCompleted = false,
+      this.enableLoadingWhenFailed = true,
+      this.twiceTriggerDistance = 150.0,
+      this.closeTwoLevelDistance = 80.0,
+      this.skipCanRefresh = false,
       this.maxOverScrollExtent,
-      this.enableBallisticLoad: true,
+      this.enableBallisticLoad = true,
       this.maxUnderScrollExtent,
-      this.headerTriggerDistance: 80.0,
-      this.footerTriggerDistance: 15.0,
-      this.hideFooterWhenNotFull: false,
-      this.enableRefreshVibrate: false,
-      this.enableLoadMoreVibrate: false,
+      this.headerTriggerDistance = 80.0,
+      this.footerTriggerDistance = 15.0,
+      this.hideFooterWhenNotFull = false,
+      this.enableRefreshVibrate = false,
+      this.enableLoadMoreVibrate = false,
       this.topHitBoundary,
       this.bottomHitBoundary})
       : assert(headerTriggerDistance > 0),

@@ -4,7 +4,6 @@
     createTime: 2019-07-21 16:59
  */
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
@@ -13,7 +12,7 @@ import 'package:pull_to_refresh_flutter3/src/internals/slivers.dart';
 import 'dataSource.dart';
 import 'test_indicator.dart';
 
-Future<void>? buildNotFullList(tester, bool reverse, Axis direction, {dynamic footer = const TestFooter(), dynamic header = const TestHeader(), bool initload: false}) {
+Future<void>? buildNotFullList(tester, bool reverse, Axis direction, {dynamic footer = const TestFooter(), dynamic header = const TestHeader(), bool initload = false}) {
   final RefreshController _refreshController = RefreshController(initialLoadStatus: initload ? LoadStatus.loading : LoadStatus.idle);
   return tester.pumpWidget(MaterialApp(
     home: Container(

@@ -11,7 +11,7 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'dataSource.dart';
 import 'test_indicator.dart';
 
-Widget buildRefresher(RefreshController controller, {int count: 20}) {
+Widget buildRefresher(RefreshController controller, {int count = 20}) {
   return RefreshConfiguration(
     child: Directionality(
       textDirection: TextDirection.ltr,

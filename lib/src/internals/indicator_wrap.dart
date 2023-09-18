@@ -33,7 +33,7 @@ abstract class RefreshIndicator extends StatefulWidget {
   /// the stopped time when refresh complete or fail
   final Duration completeDuration;
 
-  const RefreshIndicator({Key? key, this.height: 60.0, this.offset: 0.0, this.completeDuration: const Duration(milliseconds: 500), this.refreshStyle: RefreshStyle.Follow})
+  const RefreshIndicator({Key? key, this.height = 60.0, this.offset = 0.0, this.completeDuration = const Duration(milliseconds: 500), this.refreshStyle = RefreshStyle.Follow})
       : super(key: key);
 }
 
@@ -48,7 +48,7 @@ abstract class LoadIndicator extends StatefulWidget {
   /// callback when user click footer
   final VoidCallback? onClick;
 
-  const LoadIndicator({Key? key, this.onClick, this.loadStyle: LoadStyle.ShowAlways, this.height: 60.0}) : super(key: key);
+  const LoadIndicator({Key? key, this.onClick, this.loadStyle = LoadStyle.ShowAlways, this.height = 60.0}) : super(key: key);
 }
 
 /// Internal Implementation of Head Indicator
@@ -304,7 +304,7 @@ abstract class RefreshIndicatorState<T extends RefreshIndicator> extends State<T
         paintOffsetY: widget.offset,
         child: RotatedBox(
           child: buildContent(context, mode),
-          quarterTurns: needReverseAll() && Scrollable.of(context)!.axisDirection == AxisDirection.up ? 10 : 0,
+          quarterTurns: needReverseAll() && Scrollable.of(context).axisDirection == AxisDirection.up ? 10 : 0,
         ),
         floating: floating,
         refreshIndicatorLayoutExtent:
@@ -353,7 +353,7 @@ abstract class LoadIndicatorState<T extends LoadIndicator> extends State<T> with
       }
 
       // this line for patch bug temporary:indicator disappears fastly when load more complete
-      if (mounted) Scrollable.of(context)!.position.correctBy(0.00001);
+      if (mounted) Scrollable.of(context).position.correctBy(0.00001);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted && _position?.outOfRange == true) {
           activity!.delegate.goBallistic(0);
@@ -569,7 +569,7 @@ mixin IndicatorStateMixin<T extends StatefulWidget, V> on State<T> {
     refresher = SmartRefresher.of(context);
     refresherState = SmartRefresher.ofState(context);
     RefreshNotifier<V>? newMode = V == RefreshStatus ? refresher!.controller.headerMode as RefreshNotifier<V>? : refresher!.controller.footerMode as RefreshNotifier<V>?;
-    final ScrollPosition newPosition = Scrollable.of(context)!.position;
+    final ScrollPosition newPosition = Scrollable.of(context).position;
     if (newMode != _mode) {
       _mode?.removeListener(_handleModeChange);
       _mode = newMode;
@@ -630,7 +630,7 @@ mixin IndicatorStateMixin<T extends StatefulWidget, V> on State<T> {
 }
 
 /// head Indicator exposure interface
-abstract class RefreshProcessor {
+mixin class RefreshProcessor {
   /// out of edge offset callback
   void onOffsetChange(double offset) {}
 
@@ -652,7 +652,7 @@ abstract class RefreshProcessor {
 }
 
 /// footer Indicator exposure interface
-abstract class LoadingProcessor {
+mixin class LoadingProcessor {
   void onOffsetChange(double offset) {}
 
   void onModeChange(LoadStatus? mode) {}
