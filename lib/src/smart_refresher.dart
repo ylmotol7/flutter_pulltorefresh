@@ -833,7 +833,7 @@ class RefreshConfiguration extends InheritedWidget {
       this.enableBallisticLoad = true,
       this.maxUnderScrollExtent,
       this.headerTriggerDistance = 80.0,
-      this.footerTriggerDistance = 15.0,
+      this.footerTriggerDistance = 50.0,
       this.hideFooterWhenNotFull = false,
       this.enableRefreshVibrate = false,
       this.enableLoadMoreVibrate = false,
